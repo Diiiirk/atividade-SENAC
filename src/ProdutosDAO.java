@@ -47,13 +47,13 @@ public class ProdutosDAO {
         
     }
     
-    public ArrayList<ProdutosDTO> listarProdutos(){
+    public ArrayList<ProdutosDTO> listarProdutosVendidos(){
         
-        try {
+       try {
                       
             try {
                 conn  = new conectaDAO().connectDB();
-                String Query = "SELECT * from produtos" ;
+                String Query = "SELECT * from produtos WHERE status like 'Vendido'" ;
                 stmt = conn.createStatement();
                 resultset = stmt.executeQuery(Query);
                
