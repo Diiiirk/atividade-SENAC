@@ -44,7 +44,7 @@ public class ProdutosDAO {
         } catch (SQLException ex) {
             System.out.println("Erro ao inserir: " + ex.getMessage());
         }
-         
+        
     }
     
     public ArrayList<ProdutosDTO> listarProdutos(){
@@ -75,8 +75,9 @@ public class ProdutosDAO {
                 produto.setStatus(status);
                 
                 listagem.add(produto);
+                
             }
-           
+                    
         } catch (SQLException ex) {
             Logger.getLogger(ProdutosDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -85,6 +86,59 @@ public class ProdutosDAO {
             
     }
     
+    public ArrayList<ProdutosDTO> listarProdutosAVenda(){
+        
+        try {
+                      
+            try {
+                conn  = new conectaDAO().connectDB();
+                String Query = "SELECT * from produtos WHERE status like 'A venda'" ;
+                stmt = conn.createStatement();
+                resultset = stmt.executeQuery(Query);
+               
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(ProdutosDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                        
+            while (resultset.next()) {
+                ProdutosDTO produto = new ProdutosDTO();
+                int id = resultset.getInt("id");
+                String nome = resultset.getString("nome");
+                int valor = resultset.getInt("valor");
+                String status = resultset.getString("status");
+                
+                produto.setId(id);
+                produto.setNome(nome);
+                produto.setValor(valor);
+                produto.setStatus(status);
+                
+                listagem.add(produto);
+                
+            }
+                    
+        } catch (SQLException ex) {
+            Logger.getLogger(ProdutosDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+        return listagem;
+            
+    }
+    
+    public void venderProduto(Integer a){
+        
+        
+        try {
+            conn  = new conectaDAO().connectDB();
+            String query = "UPDATE produtos SET status = 'Vendido' WHERE id = " + a;
+            prep = conn.prepareStatement(query);
+            prep.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Produto a venda");
+            
+        } catch (SQLException ex) {
+            System.out.println("Erro ao atualizar: " + ex.getMessage());
+        }
+    } 
     
     
         

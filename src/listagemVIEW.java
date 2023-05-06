@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -136,12 +137,19 @@ public class listagemVIEW extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderActionPerformed
-        String id = id_produto_venda.getText();
+        if (id_produto_venda.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Campo em branco");
+        }else{
+            
+            String id = id_produto_venda.getText();
         
-        ProdutosDAO produtosdao = new ProdutosDAO();
+        ProdutosDAO produtosdao = new ProdutosDAO();       
+        produtosdao.venderProduto(Integer.parseInt(id));
         
-        //produtosdao.venderProduto(Integer.parseInt(id));
         listarProdutos();
+        id_produto_venda.setText("");
+        }
+        
     }//GEN-LAST:event_btnVenderActionPerformed
 
     private void btnVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVendasActionPerformed
@@ -206,9 +214,10 @@ public class listagemVIEW extends javax.swing.JFrame {
             ProdutosDAO produtosdao = new ProdutosDAO();
             
             DefaultTableModel model = (DefaultTableModel) listaProdutos.getModel();
+            model.getDataVector().removeAllElements(); 
             model.setNumRows(0);
             
-            ArrayList<ProdutosDTO> listagem = produtosdao.listarProdutos();
+            ArrayList<ProdutosDTO> listagem = produtosdao.listarProdutosAVenda();
             
             for(ProdutosDTO p : listagem){
                 model.addRow(new Object[]{
