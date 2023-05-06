@@ -50,13 +50,13 @@ public class ProdutosDAO {
     public ArrayList<ProdutosDTO> listarProdutos(){
         
         try {
-            
-            String Query = "SELECT * from produtos" ;
-            
-            
+                      
             try {
+                conn  = new conectaDAO().connectDB();
+                String Query = "SELECT * from produtos" ;
                 stmt = conn.createStatement();
                 resultset = stmt.executeQuery(Query);
+               
                 
             } catch (SQLException ex) {
                 Logger.getLogger(ProdutosDAO.class.getName()).log(Level.SEVERE, null, ex);
